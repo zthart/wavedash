@@ -1,6 +1,6 @@
-# Wavedash
+# Wavedash :ocean: :fast_forward:
 
-Basic Wavefront Object file parsing in lua, made with [LÖVE2D](https://love2d.org) in mind.
+Basic Wavefront Object file parsing in lua, made with :heart: with [LÖVE2D](https://love2d.org) in mind.
 
 ```lua
 local wavedash = require "wavedash"
