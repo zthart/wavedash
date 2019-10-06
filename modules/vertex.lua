@@ -35,7 +35,9 @@ function vertex.new(x, y, z, w)
 
 		return new (x, y, z)
 	
-	elseif type(x) == "table" then
+	else
+		assert(type(x) == "table", "new: Invalid argument type (expected <number> or <table>)")
+
 		local xx, yy, zz, ww = x.x or x[1], x.y or x[2], x.z or x[3], x.w or x[4]
 		assert(type(xx) == "number", "new: Argument x must be of type <number>")
 		assert(type(yy) == "number", "new: Argument y must be of type <number>")
@@ -48,13 +50,19 @@ function vertex.new(x, y, z, w)
 		end
 
 		return new(xx, yy, zz)
-	else
-		assert(nil, "new: Invalid parameters, provide x, y, and z arguments, or a table of {x, y, z}")
 	end
 end
 
-vertex_mt.__index = vertex
+function vertex.to_string(v)
+	return string.format("v: {%+0.3f, %+0.3f, %+0.3f, [%+0.3f]}", v.x, v.y, v.z, v.w)
+end
 
+vertex_mt.__index = vertex
+vertex_mt.__tostring = vertex.to_string
+
+function vertex_mt.__call(_, x, y, z, w)
+	return vertex.new(x, y, z, w)
+end
 
 return setmetatable({}, vertex_mt)
 

@@ -27,6 +27,8 @@ local wavedash = {
 local files = {
 	"object",
 	"vertex",
+	"normal",
+	"texcoord",
 	"face"
 }
 
