@@ -4,41 +4,44 @@
 local face = {}
 local face_mt = {}
 
-local function new(v1, v2, v3)
+local function new(v, vt, vn)
 	return setmetatable({
-		v1=v1,
-		v2=v2,
-		v3=v3
+		vindices = v,
+		vtindices = vt or {},
+		vnindices = vn or {}
 	}, face_mt)
 end
 
 --- Public constructor
--- @param table v1 Vertex, texcoord (optional), and normal (optional) indices of the form {v1, vt1, vn1}
--- @param table v2 Vertex, texcoord (optional), and normal (optional) indices of the form {v2, vt2, vn2}
--- @param table v3 Vertex, texcoord (optional), and normal (optional) indices of the form {v3, vt3, vn3}
-function face.new(v1, v2, v3)
-	assert(type(v1) == "table", "new: Argument v1 must be a table of the form {v1, [vt1], [vn1]}")
-	assert(type(v2) == "table", "new: Argument v2 must be a table of the form {v2, [vt2], [vn2]}")
-	assert(type(v3) == "table", "new: Argument v3 must be a table of the form {v3, [vt3], [vn3]}")
-	
-	assert(v1[1], "new: v1 must contain a vertex index")
-	assert(v2[1], "new: v2 must contain a vertex index")
-	assert(v3[1], "new: v3 must contain a vertex index")
+-- @param table vertidx Vertex indices of the form {v1, v2, v3}
+-- @param table texidx Vertex texture indices of the form {vt1, vt2, vt3}
+-- @param table normidx Vertex normal indices of the form {vn1, vn2, vn3}
+function face.new(v, vt, vn)
+	assert(type(v) == "table", "new: Argument v should be of type <table>")
+	assert(#v == 3, "new: Wavedash does not support faces with greater than three vertices")
 
-	local idx_types = {"vertex, texture, normal"}
-	local vsets = {v1, v2, v3}
+	assert(type(v[1]) == "number", "new: Argument v members must be of type <number>")
+	assert(type(v[2]) == "number", "new: Argument v members must be of type <number>")
+	assert(type(v[3]) == "number", "new: Argument v members must be of type <number>")
 
-	for i=1, #vsets do
-		for j=1, #vsets[i] do
-			if vsets[i][j] ~= nil then
-				assert(type(vsets[i][j]) == "number", "new: All index values must be of type <number>")
-			end
+	if vt ~= nil then
+		assert(type(vt) == "table", "new: Argument vt should be of type <table>")
+
+		for i=1, #vt do
+			assert(type(vt[i]) == "number", "new: Argument vt members must be of type <number>")
 		end
 	end
 
-	return new(v1, v2, v3)
-end
+	if vn ~= nil then
+		assert(type(vn) == "table", "new Argument vn should be of type <table>")
+	
+		for i=1, #vn do
+			assert(type(vn[i]) == "number", "new: Argument vn members must be of type <number>")
+		end
+	end
 
+	return new(v, vt, vn)
+end
 
 face_mt.__index = face
 
