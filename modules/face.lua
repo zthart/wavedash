@@ -13,9 +13,9 @@ local function new(v, vt, vn)
 end
 
 --- Public constructor
--- @param table vertidx Vertex indices of the form {v1, v2, v3}
--- @param table texidx Vertex texture indices of the form {vt1, vt2, vt3}
--- @param table normidx Vertex normal indices of the form {vn1, vn2, vn3}
+-- @tparam {number,...} vertidx Vertex indices of the form {v1, v2, v3}
+-- @tparam {number,...} texidx Vertex texture indices of the form {vt1, vt2, vt3}
+-- @tparam {number,...} normidx Vertex normal indices of the form {vn1, vn2, vn3}
 function face.new(v, vt, vn)
 	assert(type(v) == "table", "new: Argument v should be of type <table>")
 	assert(#v == 3, "new: Wavedash does not support faces with greater than three vertices")
@@ -41,6 +41,27 @@ function face.new(v, vt, vn)
 	end
 
 	return new(v, vt, vn)
+end
+
+--- Return a table of vertices from a face
+-- @tparam face f Face from which to return vertices
+-- @treturn {vertex,...} a table of vertices
+function face.vertices(f)
+	return f.vindices
+end
+
+--- Return a table of texcoords from a face
+-- @tparam face f Face from which to return texture coordinates
+-- @treturn {texcoord,...} a table of texture coordinates
+function face.texcoords(f)
+	return f.texcoords
+end
+
+--- Return a table of normals from a face
+-- @tparam face f Face from which to return vertex normals
+-- @treturn {normal,...} a table of vertex normals
+function face.normals(f)
+	return f.normals
 end
 
 face_mt.__index = face

@@ -16,8 +16,8 @@ end
 -- @param i I must be one of the following: </br>
 -- number I component of the normal vector </br>
 -- table I of the form {i, j, k} or {i=i, j=j, k=k}
--- @param j J component of the normal vector
--- @param k K component of the normal vector
+-- @tparam number j J component of the normal vector
+-- @tparam number k K component of the normal vector
 --
 -- This vector is not guaranteed to be normalized according to the .obj standard
 function normal.new(i, j, k)
@@ -40,6 +40,18 @@ function normal.new(i, j, k)
 	end
 end
 
+--- Unpack a normal into its component elements
+-- @tparam normal vn Vertex normal to unpack
+-- @treturn number i
+-- @treturn number j
+-- @treturn number k
+function normal.unpack(vn)
+	return vn.i, vn.j, vn.k
+end
+
+--- Return a formatted vertex normal
+-- @tparam normal vn Vertex normal to format
+-- @return string formatted
 function normal.to_string(vn)
 	return string.format("vn: {%+0.3f, %+0.3f, %+0.3f}", vn.i, vn.j, vn.k)
 end

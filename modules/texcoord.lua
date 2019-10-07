@@ -17,8 +17,8 @@ end
 -- @param u U must be one of the following: </br>
 -- number U component representing the horizontal texture direction </br>
 -- table U of {u, v, w} or {u=u, v=v, w=w}
--- @param number v V component representing vertical texture direction - optional (default 0)
--- @param number w W component representing depth of the texture - optional (default 0)
+-- @tparam number v V component representing vertical texture direction - optional (default 0)
+-- @tparam number w W component representing depth of the texture - optional (default 0)
 function texcoord.new(u, v, w)
 	if type(u) == "number" then
 		if v then
@@ -47,6 +47,18 @@ function texcoord.new(u, v, w)
 	end
 end
 
+--- Unpack a texcoord into its component elements
+-- @tparam texcoord vt Texture Coordinate to unpack
+-- @treturn number u
+-- @treturn number v
+-- @treturn number w
+function texcoord.unpack(vt)
+	return vt.u, vt.v, vt.w
+end
+
+--- Return a formatted texture coordinate
+-- @tparam texcoord vt Texture coordinate to be turned into a string
+-- @treturn string formatted
 function texcoord.to_string(vt)
 	return string.format("vt: {%+0.3f, [%+0.3f, %+0.3f]}", vt.u, vt.v, vt.w)
 end
