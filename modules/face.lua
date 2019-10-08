@@ -43,23 +43,23 @@ function face.new(v, vt, vn)
 	return new(v, vt, vn)
 end
 
---- Return a table of vertices from a face
--- @tparam face f Face from which to return vertices
--- @treturn {vertex,...} a table of vertices
+--- Return a table of vertex indices from a face
+-- @tparam face f Face from which to return vertex indices
+-- @treturn {number,...} a table of vertex indices
 function face.vertices(f)
 	return f.vindices
 end
 
---- Return a table of texcoords from a face
--- @tparam face f Face from which to return texture coordinates
--- @treturn {texcoord,...} a table of texture coordinates
+--- Return a table of texcoord indices from a face
+-- @tparam face f Face from which to return texture coordinate indices
+-- @treturn {number,...} a table of texture coordinate indices
 function face.texcoords(f)
 	return f.texcoords
 end
 
---- Return a table of normals from a face
--- @tparam face f Face from which to return vertex normals
--- @treturn {normal,...} a table of vertex normals
+--- Return a table of normal indices from a face
+-- @tparam face f Face from which to return vertex normal indices
+-- @treturn {number,...} a table of vertex normal indices
 function face.normals(f)
 	return f.normals
 end

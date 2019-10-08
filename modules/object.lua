@@ -88,6 +88,26 @@ function object.parse(filepath)
 	return new(verts, norms, texcoords, faces, found_unsupported)
 end
 
+--- Iterator to traverse the vertices in face order of an object
+-- @tparam object o Object whose faces through which to iterate
+-- @return the iterator
+function object.verts_in_order(o)
+	local facenum = 1
+	return function()
+		while facenum <= #o.faces do
+			local curr_face = o.faces[facenum]
+			-- Remember that these are indices for vertices, not the vertices themselves
+			local face_vert_idx = curr_face:vertices()
+			local v1i, v2i, v3i = face_vert_idx[1], face_vert_idx[2], face_vert_idx[3]
+			local v1, v2, v3 = o.vertices[v1i], o.vertices[v2i], o.vertices[v3i]
+			facenum = facenum + 1
+			return v1, v2, v3
+		end
+		return nil
+	end
+end
+			
+
 object_mt.__index = object
 
 function object_mt.__call(_, x, y, z, w)
