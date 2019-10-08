@@ -9,6 +9,11 @@ local wavedash = require "wavedash"
 teapot = wavedash.object.parse("teapot.obj")
 ```
 
+## Documentation
+
+Documentation can be found online [here](https://zthart.me/docs/wavedash), or can be generated locally via 
+[LDoc](https://stevedonovan.github.io/ldoc/index.html) by running `ldoc -c docs/config.ld -o index .`
+
 ## Supported Data & Attributes
 
 The goal of this project is not to be a completely comprehensive .obj file loader/parser, but to provide accessor 
