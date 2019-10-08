@@ -18,9 +18,9 @@ end
 -- number X coordinate </br>
 -- table {x, y, z} or {x=x, y=y, z=z} </br>
 -- table with optional weight w {x, y, z, w} or {x=x, y=y, z=z, w=w}
--- @param number y Y coordinate - optional if x provided as a table
--- @param number z Z coordinate - optional if x provided as a table
--- @param number w Weight value - optional (default 1.0)
+-- @tparam number y Y coordinate - optional if x provided as a table
+-- @tparam number z Z coordinate - optional if x provided as a table
+-- @tparam number w Weight value - optional (default 1.0)
 function vertex.new(x, y, z, w)
 	if x and y and z then
 		assert(type(x) == "number", "new: Argument x must be of type <number>")
@@ -53,6 +53,19 @@ function vertex.new(x, y, z, w)
 	end
 end
 
+--- Unpack a vertex into its component elements
+-- @tparam vertex v Vertex to unpack
+-- @treturn number x
+-- @treturn number y
+-- @treturn number z
+-- @treturn number w
+function vertex.unpack(v)
+	return v.x, v.y, v.z, v.w
+end
+
+--- String representation of a vertex
+-- @tparam vertex v Vertex to format
+-- @treturn string formatted
 function vertex.to_string(v)
 	return string.format("v: {%+0.3f, %+0.3f, %+0.3f, [%+0.3f]}", v.x, v.y, v.z, v.w)
 end
