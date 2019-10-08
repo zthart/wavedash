@@ -24,7 +24,7 @@ local function new(vertices, normals, texcoords, faces, unsupported)
 end
 
 --- Public constructor
--- @param string filepath The path to the object file on disk, must end with .obj
+-- @tparam string filepath The path to the object file on disk, must end with .obj
 function object.parse(filepath)
 	assert(filepath, "new: Required filepath argument not provided")
 	assert(filepath:sub(-4):lower() == ".obj", "new: File povided was not of the correct type, must have .obj extension")

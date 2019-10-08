@@ -13,9 +13,9 @@ local function new(v, vt, vn)
 end
 
 --- Public constructor
--- @tparam {number,...} vertidx Vertex indices of the form {v1, v2, v3}
--- @tparam {number,...} texidx Vertex texture indices of the form {vt1, vt2, vt3}
--- @tparam {number,...} normidx Vertex normal indices of the form {vn1, vn2, vn3}
+-- @tparam {number,...} v Vertex indices of the form {v1, v2, v3}
+-- @tparam {number,...} vt Vertex texture indices of the form {vt1, vt2, vt3}
+-- @tparam {number,...} vn Vertex normal indices of the form {vn1, vn2, vn3}
 function face.new(v, vt, vn)
 	assert(type(v) == "table", "new: Argument v should be of type <table>")
 	assert(#v == 3, "new: Wavedash does not support faces with greater than three vertices")
