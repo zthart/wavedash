@@ -100,14 +100,27 @@ end
 -- @return the iterator
 function object.verts_in_order(o)
 	local facenum = 1
+	local subface = 1
 	return function()
 		while facenum <= #o.faces do
 			local curr_face = o.faces[facenum]
 			-- Remember that these are indices for vertices, not the vertices themselves
 			local face_vert_idx = curr_face:vertices()
-			local v1i, v2i, v3i = face_vert_idx[1], face_vert_idx[2], face_vert_idx[3]
+			
+			-- Faces may contain arbitrary vertex counts, and all faces in an object do not need to contain the same
+			-- number of vertices. We're going to assume that all of the vertices are given to us in a clockwise
+			-- order, and will make triangular subfaces sharing the first vertex provided in the order 1, f+1, f+2, 
+			-- where f is a 1-indexd subface (e.g. a quadrilateral face will be broken into two subfaces with vertices
+			-- 1, 2, 3 (face 1)  and 1, 3, 4 (face 2)).
+			local v1i, v2i, v3i = face_vert_idx[1], face_vert_idx[subface+1], face_vert_idx[subface+2]
 			local v1, v2, v3 = o.vertices[v1i], o.vertices[v2i], o.vertices[v3i]
-			facenum = facenum + 1
+			
+			if subface ~= #face_vert_idx-2 then
+				subface = subface + 1
+			else
+				facenum = facenum + 1
+				subface = 1
+			end
 			return v1, v2, v3
 		end
 		return nil
