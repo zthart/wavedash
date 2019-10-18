@@ -95,7 +95,14 @@ function object.parse(filepath)
 	return new(verts, norms, texcoords, faces, found_unsupported)
 end
 
---- Iterator to traverse the vertices in face order of an object
+--- Iterator to traverse the vertices in face order of an object.
+--
+-- Intended to be used for functions that require faces be constructed by vertices passed in-order, the iterator 
+-- returned by this function will provide three-tuples of vertices corresponding to the face (or subface) next 
+-- described by the object. Subfaces are generated only in this function, and are not properties of the face module.
+-- Subfaces are generated for all faces with n>3 vertices, and will create subfaces of vertices 1, f+1, f+2, where f 
+-- is the 1-indexed subface number. By this process, a quadrilateral face would be broken into two triangular subfaces
+-- of vertices 1, 2, 3 and 1, 3, 4 respectively. 
 -- @tparam object o Object whose faces through which to iterate
 -- @return the iterator
 function object.verts_in_order(o)
