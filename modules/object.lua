@@ -47,7 +47,14 @@ function object.parse(filepath)
 
 		out[outField] = toSplit:sub(start)
 
-		return out
+		local stripped_out = {}
+		for i=1, #out do
+			if out[i] ~= "" then
+				stripped_out[#stripped_out+1] = out[i]
+			end
+		end
+
+		return stripped_out
 	end
 
 	-- Create local tables for each of our supported datapoints
