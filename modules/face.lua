@@ -18,11 +18,10 @@ end
 -- @tparam {number,...} vn Vertex normal indices of the form {vn1, vn2, vn3}
 function face.new(v, vt, vn)
 	assert(type(v) == "table", "new: Argument v should be of type <table>")
-	assert(#v == 3, "new: Wavedash does not support faces with greater than three vertices")
 
-	assert(type(v[1]) == "number", "new: Argument v members must be of type <number>")
-	assert(type(v[2]) == "number", "new: Argument v members must be of type <number>")
-	assert(type(v[3]) == "number", "new: Argument v members must be of type <number>")
+	for i=1, #v do
+		assert(type(v[i]) == "number", "new Argument v members must be of type <number>")
+	end
 
 	if vt ~= nil then
 		assert(type(vt) == "table", "new: Argument vt should be of type <table>")

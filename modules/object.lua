@@ -47,7 +47,14 @@ function object.parse(filepath)
 
 		out[outField] = toSplit:sub(start)
 
-		return out
+		local stripped_out = {}
+		for i=1, #out do
+			if out[i] ~= "" then
+				stripped_out[#stripped_out+1] = out[i]
+			end
+		end
+
+		return stripped_out
 	end
 
 	-- Create local tables for each of our supported datapoints
@@ -88,19 +95,39 @@ function object.parse(filepath)
 	return new(verts, norms, texcoords, faces, found_unsupported)
 end
 
---- Iterator to traverse the vertices in face order of an object
+--- Iterator to traverse the vertices in face order of an object.
+--
+-- Intended to be used for functions that require faces be constructed by vertices passed in-order, the iterator 
+-- returned by this function will provide three-tuples of vertices corresponding to the face (or subface) next 
+-- described by the object. Subfaces are generated only in this function, and are not properties of the face module.
+-- Subfaces are generated for all faces with n>3 vertices, and will create subfaces of vertices 1, f+1, f+2, where f 
+-- is the 1-indexed subface number. By this process, a quadrilateral face would be broken into two triangular subfaces
+-- of vertices 1, 2, 3 and 1, 3, 4 respectively. 
 -- @tparam object o Object whose faces through which to iterate
 -- @return the iterator
 function object.verts_in_order(o)
 	local facenum = 1
+	local subface = 1
 	return function()
 		while facenum <= #o.faces do
 			local curr_face = o.faces[facenum]
 			-- Remember that these are indices for vertices, not the vertices themselves
 			local face_vert_idx = curr_face:vertices()
-			local v1i, v2i, v3i = face_vert_idx[1], face_vert_idx[2], face_vert_idx[3]
+			
+			-- Faces may contain arbitrary vertex counts, and all faces in an object do not need to contain the same
+			-- number of vertices. We're going to assume that all of the vertices are given to us in a clockwise
+			-- order, and will make triangular subfaces sharing the first vertex provided in the order 1, f+1, f+2, 
+			-- where f is a 1-indexd subface (e.g. a quadrilateral face will be broken into two subfaces with vertices
+			-- 1, 2, 3 (face 1)  and 1, 3, 4 (face 2)).
+			local v1i, v2i, v3i = face_vert_idx[1], face_vert_idx[subface+1], face_vert_idx[subface+2]
 			local v1, v2, v3 = o.vertices[v1i], o.vertices[v2i], o.vertices[v3i]
-			facenum = facenum + 1
+			
+			if subface ~= #face_vert_idx-2 then
+				subface = subface + 1
+			else
+				facenum = facenum + 1
+				subface = 1
+			end
 			return v1, v2, v3
 		end
 		return nil
