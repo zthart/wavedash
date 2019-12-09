@@ -32,3 +32,8 @@ Notably lacking (for now) are line elements (`l v1 v2 v3 v4 ...`), parameter spa
 material support (`.mtl` files). While these may be in the scope for future work on this project, in beginning 
 iterations, these data points will be ignored.
 
+## License
+
+This project is Copyright (C) 2019 Zach Hart, and Licensed under the GPLv3. The full text of this license can be found
+in LICENSE at the root of this project
+
